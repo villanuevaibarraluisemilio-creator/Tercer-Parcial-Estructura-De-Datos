@@ -1,0 +1,6 @@
+NODOS
+A
+B
+C
+Z
+ARISTAS
