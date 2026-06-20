@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Cálculo</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .contenedor-calculadora {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 360px;
+        }
+
+        h2 {
+            color: #1a1a1a;
+            margin-bottom: 20px;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .grupo-entrada {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #555;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        input[type="number"], select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.2s;
+            outline: none;
+        }
+
+        input[type="number"]:focus, select:focus {
+            border-color: #0066cc;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0052a3;
+        }
+
+        .zona-resultado {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border-left: 4px solid #0066cc;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #output {
+            font-size: 18px;
+            color: #2b2b2b;
+            font-weight: 600;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="contenedor-calculadora">
+    <h2>Operaciones</h2>
+
+    <div class="grupo-entrada">
+        <label for="num1">Primer valor</label>
+        <input type="number" id="num1" placeholder="Ej. 10">
+    </div>
+
+    <div class="grupo-entrada">
+        <label for="num2">Segundo valor</label>
+        <input type="number" id="num2" placeholder="Ej. 5">
+    </div>
+
+    <div class="grupo-entrada">
+        <label for="operacion">Acción</label>
+        <select id="operacion">
+            <option value="sumar">Adición (+)</option>
+            <option value="restar">Sustracción (-)</option>
+            <option value="multiplicar">Multiplicación (×)</option>
+            <option value="dividir">División (÷)</option>
+        </select>
+    </div>
+
+    <button id="btnProcesar">Ejecutar Acción</button>
+
+    <div class="zona-resultado">
+        <div id="output">Esperando datos...</div>
+    </div>
+</div>
+
+<script>
+    document.getElementById("btnProcesar").addEventListener("click", () => {
+        const v1 = parseFloat(document.getElementById("num1").value);
+        const v2 = parseFloat(document.getElementById("num2").value);
+        const accion = document.getElementById("operacion").value;
+        const contenedorTexto = document.getElementById("output");
+
+        if (isNaN(v1) || !v2 && v2 !== 0) {
+            contenedorTexto.innerText = "Por favor, llena los campos.";
+            return;
+        }
+
+        if (accion === "dividir" && v2 === 0) {
+            contenedorTexto.innerText = "Error: División por cero implosible.";
+            return;
+        }
+
+        const operaciones = {
+            sumar: (x, y) => x + y,
+            restar: (x, y) => x - y,
+            multiplicar: (x, y) => x * y,
+            dividir: (x, y) => x / y
+        };
+
+        const calculo = operaciones[accion](v1, v2);
+        contenedorTexto.innerText = `El resultado es: ${calculo}`;
+    });
+</script>
+
+</body>
+</html>
